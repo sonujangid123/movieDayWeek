@@ -1,53 +1,70 @@
-let dayBtn = document.getElementById("day");
-let weekBtn = document.getElementById("week");
-let flag = false;
-let day = null;
-let week = null;
-
-const mainDiv = document.createElement("div");
-mainDiv.classList.add("mainDiv");
-
 const API_KEY = "c6fb36a8605634e1c243f9e0317511cc";
 const IMG_BASE_PATH = "https://image.tmdb.org/t/p/original";
 
-const popularByDay =
-  "https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=" +
-  API_KEY;
-const popularByWeek =
-  "https://api.themoviedb.org/3/trending/all/week?language=en-US&api_key=" +
-  API_KEY;
+      const endpoints = {
+        trendingDay: `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`,
+        trendingWeek: `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`,
+        popularMovies: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`, 
+        topRatedMovies: `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
+        topRatedTVShows: `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`,
+      };
 
-window.addEventListener("load", async () => {
-  day = await fetchData(popularByDay);
-  week = await fetchData(popularByWeek);
-  if (flag) changeData(week);
-  else changeData(day);
-});
+      async function fetchData(url) {
+        try {
+          const response = await fetch(url);
+          const result = await response.json();
+          return result;
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
 
-dayBtn.addEventListener("click", () => {
-  flag = false;
-  changeData(day);
-});
-weekBtn.addEventListener("click", () => {
-  flag = true;
-  changeData(week);
-});
+      async function displayData(endpoint, sectionId) {
+        const data = await fetchData(endpoint);
+        const section = document.getElementById(sectionId);
+        section.innerHTML = "";
 
-function changeData(arg) {
-  mainDiv.innerHTML = "";
-  for (let i = 0; i < 20; i++) {
-    const image = document.createElement("img");
-    image.src = IMG_BASE_PATH + arg.results[i].poster_path;
-    mainDiv.append(image);
-    console.log(arg);
-    
-  }
-  document.querySelector("#wrapper").append(mainDiv);
-}
+       
+          for (let i = 0; i < 20 && i < data.results.length; i++) {
+            const item = data.results[i];
+            const image = document.createElement("img");
+            image.src = IMG_BASE_PATH + data.results[i].poster_path;
+            section.appendChild(image);
+          }
+        } 
 
-// changeData()
-async function fetchData(url) {
-  const response = await fetch(url);
-  const result = await response.json();
-  return result;
-}
+      document.getElementById("dayTrending").addEventListener("click", () => {
+        displayData(endpoints.trendingDay, "trendingSection");
+       
+      });
+      document.getElementById("weekTrending").addEventListener("click", () => {
+        displayData(endpoints.trendingWeek, "trendingSection");
+       
+      });
+
+      document.getElementById("moviesTopRated").addEventListener("click", () => {
+        displayData(endpoints.topRatedMovies, "topRatedSection");
+     
+      });
+      document.getElementById("tvShowsTopRated").addEventListener("click", () => {
+        displayData(endpoints.topRatedTVShows, "topRatedSection");
+        
+      });
+
+      document.getElementById("dayPopular").addEventListener("click", () => {
+        displayData(endpoints.popularMovies, "popularSection");
+        
+     
+      });
+      document.getElementById("weekPopular").addEventListener("click", () => {
+        displayData(endpoints.popularMovies, "popularSection");
+  
+      });
+
+     
+
+      window.addEventListener("load", () => {
+        displayData(endpoints.trendingDay, "trendingSection");
+        displayData(endpoints.popularMovies, "popularSection");
+        displayData(endpoints.topRatedMovies, "topRatedSection");
+      });

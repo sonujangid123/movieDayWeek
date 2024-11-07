@@ -1,15 +1,40 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movies</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="wrapper">
-        <button id="day">Day</button>
-        <button id="week">Week</button>
+      <div class="trending">
+        <header>
+          <button id="dayTrending">Trending - Day</button>
+          <button id="weekTrending">Trending - Week</button>
+        </header>
+        <section id="trendingSection"></section>
+      </div>
+
+      <div class="topRated">
+        <header>
+          <button id="moviesTopRated">Top Rated - Movies</button>
+          <button id="tvShowsTopRated">Top Rated - TV Shows</button>
+        </header>
+        <section id="topRatedSection"></section>
+      </div>
+
+      <div class="popular">
+        <header>
+          <button id="dayPopular">Popular - Day</button>
+          <button id="weekPopular">Popular - Week</button>
+        </header>
+        <section id="popularSection"></section>
+      </div>
+
+    
     </div>
 
     <script src="scripts.js"></script>
