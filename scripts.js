@@ -5,6 +5,8 @@ const IMG_BASE_PATH = "https://image.tmdb.org/t/p/original";
         trendingDay: `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`,
         trendingWeek: `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`,
         popularMovies: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`, 
+        popularTVShows: `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`,
+
         topRatedMovies: `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
         topRatedTVShows: `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`,
       };
@@ -53,11 +55,15 @@ const IMG_BASE_PATH = "https://image.tmdb.org/t/p/original";
 
       document.getElementById("dayPopular").addEventListener("click", () => {
         displayData(endpoints.popularMovies, "popularSection");
+        // console.log(endpoints);
+        
         
      
       });
       document.getElementById("weekPopular").addEventListener("click", () => {
-        displayData(endpoints.popularMovies, "popularSection");
+        displayData(endpoints.popularTVShows, "popularSection");
+        console.log(endpoints);
+        
   
       });
 
